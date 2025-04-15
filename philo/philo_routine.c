@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/15 15:20:25 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:55:11 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 void	print_log(t_philo *philo, char *message)
 {
 	long long time;
+
+	if (philo->data->stop)
+		return ;
 
 	pthread_mutex_lock(&philo->data->print);
 	time = get_time() - philo->data->start_time;
