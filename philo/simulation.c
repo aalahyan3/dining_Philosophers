@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/14 19:03:27 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:20:44 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	start_simulation(t_data *data)
 		return ;
 	init_philos(philos, data);
 	i = 0;
+	printf("--------------------------------------------------------------\n");
+	printf("| %-10s | %-3s | %-40s|\n", "time (ms)", "id", "logs");
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]))

@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:27:32 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/14 17:24:08 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:15:22 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	init_data(t_data *data)
 	int	j;
 
 	data->curr_time = 0;
+	data->start_time = get_time();
 	data->stop = 0;
 
 	if (pthread_mutex_init(&data->print, NULL))

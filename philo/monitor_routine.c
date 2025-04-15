@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/15 13:41:58 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:20:37 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	is_stop_condition(t_philo *philos)
 
 	i = 0;
 	eat = 0;
-	curr = philos[0].data->curr_time;
 	while (philos[0].data->nb_must_eat >= 0 && i < philos[0].data->nb_philo)
 	{
 		if (philos[i].nb_eat >= philos[i].data->nb_must_eat)
@@ -41,11 +40,12 @@ int	is_stop_condition(t_philo *philos)
 	i = 0;
 	while (i < philos[0].data->nb_philo)
 	{
+		curr = get_time() - philos[i].data->start_time;
 		if (curr - philos[i].last_meal > philos[i].data->time_to_die)
 		{
-			pthread_mutex_lock(&philos[i].data->print);
-			print_log(&philos[i], DIED);
-			pthread_mutex_unlock(&philos[i].data->print);
+			printf("--------------------------------------------------------------\n");
+			printf("| %-10lld | %-3d | %-40s|\n", curr, philos[i].id, DIED);
+			printf("--------------------------------------------------------------\n");
 			return (1);
 		}
 		i++;
@@ -62,7 +62,6 @@ void	*monitor_routine(void *arg)
 
 	philos = (t_philo *)arg;
 	data = philos[0].data;
-	data->start_time = get_time();
 	while (1)
 	{
 		if (is_stop_condition(philos))
