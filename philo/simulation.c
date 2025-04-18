@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/15 15:20:44 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:19:29 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_philos(t_philo *philos, t_data *data)
 	{
 		philos[i].data = data;
 		philos[i].id = i + 1;
-		philos[i].last_meal = 0;
+		philos[i].last_meal = get_time();
 		philos[i].left_fork_index = get_left_fork(i + 1, data->nb_philo);
 		philos[i].right_fork_index = get_right_fork(i + 1, data->nb_philo);
 		philos[i].nb_eat = 0;
@@ -60,6 +60,7 @@ void	start_simulation(t_data *data)
 	i = 0;
 	printf("--------------------------------------------------------------\n");
 	printf("| %-10s | %-3s | %-40s|\n", "time (ms)", "id", "logs");
+	data->start_time = get_time();
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]))

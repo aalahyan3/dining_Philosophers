@@ -6,65 +6,108 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/15 15:55:11 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:54:19 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	should_stop(t_philo *philo)
+{
+	int stop;
+
+	pthread_mutex_lock(&philo->data->stop_mutex);
+	stop = philo->data->stop;
+	pthread_mutex_unlock(&philo->data->stop_mutex);
+	return (stop);
+}
+
+ void ft_usleep( t_philo *philo, long long time)
+{
+    long long start = get_time();
+    while ((get_time() - start) < time)
+    {
+
+        pthread_mutex_lock(&philo->data->stop_mutex);
+        int stop = philo->data->stop;
+        pthread_mutex_unlock(&philo->data->stop_mutex);
+
+        if (stop)
+            return ;
+		// printf("philo %d is still sleeping\n", philo->id);
+        usleep(100);
+    }
+    return ;
+}
 
 void	print_log(t_philo *philo, char *message)
 {
 	long long time;
 
+	pthread_mutex_lock(&philo->data->stop_mutex);
 	if (philo->data->stop)
+	{
+		pthread_mutex_unlock(&philo->data->stop_mutex);
 		return ;
-
-	pthread_mutex_lock(&philo->data->print);
+	}
+	pthread_mutex_unlock(&philo->data->stop_mutex);
 	time = get_time() - philo->data->start_time;
+	pthread_mutex_lock(&philo->data->print);
 	printf("--------------------------------------------------------------\n");
 	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, message);
 	pthread_mutex_unlock(&philo->data->print);
 }
 
+void	take_forks(t_philo *philo)
+{
+	if (philo->left_fork_index < philo->right_fork_index)
+	{
+		pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
+		print_log(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
+		print_log(philo, TAKEN_FORK);
+		return ;
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
+		print_log(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
+		print_log(philo, TAKEN_FORK);
+		return ;
+	}
+}
+
 void	eat(t_philo *philo)
 {
-	long long	time;
-
-	pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
+	take_forks(philo);
+	pthread_mutex_lock(&philo->data->stop_mutex);
 	if (philo->data->stop)
 	{
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
-		return ;
-	}
-	print_log(philo, TAKEN_FORK);
-	pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
-	if (philo->data->stop)
-	{
+		pthread_mutex_unlock(&philo->data->stop_mutex);
 		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
 		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
 		return ;
 	}
+	pthread_mutex_unlock(&philo->data->stop_mutex);
 
-	print_log(philo, TAKEN_FORK);
-
-	if (philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
-		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
-		return ;
-	}
-	philo->last_meal = get_time() - philo->data->start_time;
 	print_log(philo, EATING);
-	usleep(philo->data->time_to_eat * 1000);
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	philo->last_meal = get_time();
 	philo->nb_eat++;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	ft_usleep(philo, philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
-
+	pthread_mutex_lock(&philo->data->stop_mutex);
 	if (philo->data->stop)
+	{
+		pthread_mutex_unlock(&philo->data->stop_mutex);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->data->stop_mutex);
 	print_log(philo, SLEEPING);
-	usleep(philo->data->time_to_sleep * 1000);
+	ft_usleep(philo, philo->data->time_to_sleep);
 }
 
 void	*philo_routine(void *arg)
@@ -73,10 +116,10 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	usleep(1000 + (philo->id % 2 * 1000));
-	while (!philo->data->stop)
+	while (!should_stop(philo))
 	{
-		print_log(philo, THINKING);
 		eat(philo);
+		print_log(philo, THINKING);
 	}
 	return (NULL);
 }
