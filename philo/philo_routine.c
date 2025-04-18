@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/18 19:54:19 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:30:02 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,18 @@ int	should_stop(t_philo *philo)
 	return (stop);
 }
 
- void ft_usleep( t_philo *philo, long long time)
+void ft_usleep( t_philo *philo, long long time)
 {
     long long start = get_time();
     while ((get_time() - start) < time)
     {
-
         pthread_mutex_lock(&philo->data->stop_mutex);
         int stop = philo->data->stop;
         pthread_mutex_unlock(&philo->data->stop_mutex);
 
         if (stop)
             return ;
-		// printf("philo %d is still sleeping\n", philo->id);
-        usleep(100);
+        usleep(500);
     }
     return ;
 }
@@ -115,7 +113,7 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(1000 + (philo->id % 2 * 1000));
+	usleep(0 + (!(philo->id % 2) * 1000));
 	while (!should_stop(philo))
 	{
 		eat(philo);
