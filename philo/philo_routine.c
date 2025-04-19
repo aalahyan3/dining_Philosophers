@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/18 21:30:02 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:33:49 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 int	should_stop(t_philo *philo)
 {
 	int stop;
+	int	meals_had;
 
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	meals_had = philo->nb_eat;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	if (meals_had == philo->data->nb_must_eat)
+		return (1);
 	pthread_mutex_lock(&philo->data->stop_mutex);
 	stop = philo->data->stop;
 	pthread_mutex_unlock(&philo->data->stop_mutex);
@@ -108,12 +114,20 @@ void	eat(t_philo *philo)
 	ft_usleep(philo, philo->data->time_to_sleep);
 }
 
+void *one_philo_case(t_philo *philo)
+{
+	print_log(philo, TAKEN_FORK);
+	return (NULL);
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	usleep(0 + (!(philo->id % 2) * 1000));
+	if (philo->data->nb_philo == 1)
+		return (one_philo_case(philo));
 	while (!should_stop(philo))
 	{
 		eat(philo);

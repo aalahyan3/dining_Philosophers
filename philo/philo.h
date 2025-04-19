@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:33:52 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/18 18:01:10 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:57:36 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-
+# include <limits.h>
 # define TAKEN_FORK "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
@@ -56,7 +56,7 @@ typedef struct s_philo
 
 
 int	main(int ac, char **av);
-int	parse(t_data *data, int ac, char **av);
+char	*parse(t_data *data, int ac, char **av);
 void	start_simulation(t_data *data);
 void	*philo_routine(void *arg);
 void	*monitor_routine(void *arg);

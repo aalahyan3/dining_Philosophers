@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/18 19:37:16 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:31:24 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,52 @@ long long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int	is_stop_condition(t_philo *philos)
+// int	is_stop_condition(t_philo *philos)
+// {
+// 	int			i;
+// 	int			eat;
+// 	long long	curr;
+// 	long long	last_meal;
+// 	t_data		*data;
+// 	int	times_eat;
+
+// 	i = 0;
+// 	eat = 0;
+// 	data = philos[0].data;
+// 	i = 0;
+// 	while (i < data->nb_philo)
+// 	{
+// 		pthread_mutex_lock(&data->meal_mutex);
+// 		last_meal = philos[i].last_meal;
+// 		times_eat = philos[i].nb_eat;
+// 		pthread_mutex_unlock(&data->meal_mutex);
+// 		curr = get_time();
+// 		if (curr - last_meal > data->time_to_die)
+// 		{
+// 			print_log(&philos[i], DIED);
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+int someone_died(t_philo *philos)
 {
-	int			i;
-	int			eat;
-	long long	curr;
-	long long	last_meal; // added to store last_meal value outside mutex
-	t_data		*data; // added to avoid repeated access to philos[0].data
+	int	i;
+	long long	last_meal;
+	t_data		*data;
 
 	i = 0;
-	eat = 0;
-	data = philos[0].data; // assigned once for cleaner code
-	// while (data->nb_must_eat >= 0 && i < data->nb_philo)
-	// {
-	// 	if (philos[i].nb_eat >= data->nb_must_eat)
-	// 		eat++;
-	// 	i++;
-	// }
-	// if (data->nb_must_eat >= 0 && eat == data->nb_philo)
-	// 	return (1);
-	i = 0;
-	while (i < data->nb_philo)
+	data = philos[0].data;
+	while ( i < data->nb_philo)
 	{
 		pthread_mutex_lock(&data->meal_mutex);
-		last_meal = philos[i].last_meal; // moved access to local variable
-		pthread_mutex_unlock(&data->meal_mutex); // unlocked before print_log
-		curr = get_time();
-		if (curr - last_meal > data->time_to_die)
+		last_meal = philos[i].last_meal;
+		pthread_mutex_unlock(&data->meal_mutex);
+		if (get_time() - last_meal > data->time_to_die)
 		{
-			print_log(&philos[i], DIED); // now called after unlocking meal_mutex
+			print_log(&philos[i], DIED);
 			return (1);
 		}
 		i++;
@@ -58,8 +75,28 @@ int	is_stop_condition(t_philo *philos)
 	return (0);
 }
 
+int	all_eat_enough(t_philo *philos)
+{
+	int	i;
+	int	eat_enough;
+	int	meals;
+	t_data	*data;
 
+	i = 0;
+	data = philos[i].data;
+	eat_enough = 0;
 
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_lock(&data->meal_mutex);
+		meals = philos[i].nb_eat;
+		pthread_mutex_unlock(&data->meal_mutex);
+		if (meals == data->nb_must_eat)
+			eat_enough++;
+		i++;
+	}
+	return (eat_enough == data->nb_philo);
+}
 
 void	*monitor_routine(void *arg)
 {
@@ -70,7 +107,7 @@ void	*monitor_routine(void *arg)
 	data = philos[0].data;
 	while (1)
 	{
-		if (is_stop_condition(philos))
+		if (someone_died(philos) || all_eat_enough(philos))
 		{
 			pthread_mutex_lock(&data->stop_mutex);
 			data->stop = 1;

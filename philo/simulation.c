@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/18 19:19:29 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:42:47 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ void	start_simulation(t_data *data)
 	{
 		if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]))
 		{
+			pthread_mutex_lock(&data->stop_mutex);
 			data->stop = 1;
+			pthread_mutex_unlock(&data->stop_mutex);
 			free(philos);
 			return ;
 		}
@@ -73,7 +75,9 @@ void	start_simulation(t_data *data)
 	}
 	if (pthread_create(&monitor, NULL, monitor_routine, philos))
 	{
+		pthread_mutex_lock(&data->stop_mutex);
 		data->stop = 1;
+		pthread_mutex_unlock(&data->stop_mutex);
 		free(philos);
 		return ;
 	}
@@ -81,5 +85,11 @@ void	start_simulation(t_data *data)
 	pthread_join(monitor, NULL);
 	while (i < data->nb_philo)
 		pthread_join(philos[i++].thread, NULL);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		printf("philo %d ate %d times\n", philos[i].id, philos[i].nb_eat);
+		i++;
+	}
 	free(philos);
 }
