@@ -6,13 +6,11 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 14:31:24 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:24:06 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 long long	get_time(void)
 {
@@ -52,15 +50,15 @@ long long	get_time(void)
 // 	return (0);
 // }
 
-int someone_died(t_philo *philos)
+int	someone_died(t_philo *philos)
 {
-	int	i;
+	int			i;
 	long long	last_meal;
 	t_data		*data;
 
 	i = 0;
 	data = philos[0].data;
-	while ( i < data->nb_philo)
+	while (i < data->nb_philo)
 	{
 		pthread_mutex_lock(&data->meal_mutex);
 		last_meal = philos[i].last_meal;
@@ -77,15 +75,14 @@ int someone_died(t_philo *philos)
 
 int	all_eat_enough(t_philo *philos)
 {
-	int	i;
-	int	eat_enough;
-	int	meals;
+	int		i;
+	int		eat_enough;
+	int		meals;
 	t_data	*data;
 
 	i = 0;
 	data = philos[i].data;
 	eat_enough = 0;
-
 	while (i < data->nb_philo)
 	{
 		pthread_mutex_lock(&data->meal_mutex);

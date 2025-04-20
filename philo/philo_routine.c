@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 14:33:49 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:26:25 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	should_stop(t_philo *philo)
 {
-	int stop;
+	int	stop;
 	int	meals_had;
 
 	pthread_mutex_lock(&philo->data->meal_mutex);
@@ -28,25 +28,27 @@ int	should_stop(t_philo *philo)
 	return (stop);
 }
 
-void ft_usleep( t_philo *philo, long long time)
+void	ft_usleep( t_philo *philo, long long time)
 {
-    long long start = get_time();
-    while ((get_time() - start) < time)
-    {
-        pthread_mutex_lock(&philo->data->stop_mutex);
-        int stop = philo->data->stop;
-        pthread_mutex_unlock(&philo->data->stop_mutex);
+	long long	start;
+	int			stop;
 
-        if (stop)
-            return ;
-        usleep(500);
-    }
-    return ;
+	start = get_time();
+	while ((get_time() - start) < time)
+	{
+		pthread_mutex_lock(&philo->data->stop_mutex);
+		stop = philo->data->stop;
+		pthread_mutex_unlock(&philo->data->stop_mutex);
+		if (stop)
+			return ;
+		usleep(500);
+	}
+	return ;
 }
 
 void	print_log(t_philo *philo, char *message)
 {
-	long long time;
+	long long	time;
 
 	pthread_mutex_lock(&philo->data->stop_mutex);
 	if (philo->data->stop)
@@ -94,7 +96,6 @@ void	eat(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->stop_mutex);
-
 	print_log(philo, EATING);
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->last_meal = get_time();

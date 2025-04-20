@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 15:42:47 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:27:33 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 int	get_left_fork(int id, int nb_p)
 {
-	// if (id == 1)
-	// 	return (nb_p - 1);
-	// else
-	// 	return (id - 2);
 	if (id == 1)
 		return (nb_p - 1);
 	else
@@ -26,7 +22,6 @@ int	get_left_fork(int id, int nb_p)
 
 int	get_right_fork(int id, int nb_p)
 {
-
 	return (id - 1);
 }
 

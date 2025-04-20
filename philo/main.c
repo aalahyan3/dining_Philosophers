@@ -6,21 +6,16 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:27:32 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 16:16:30 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:23:23 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_data(t_data *data)
+int	init_mutexes_1(t_data *data)
 {
-	int	i;
-	int	j;
-
-	data->curr_time = 0;
 	data->start_time = get_time();
 	data->stop = 0;
-
 	if (pthread_mutex_init(&data->print, NULL))
 		return (0);
 	if (pthread_mutex_init(&data->stop_mutex, NULL))
@@ -42,6 +37,16 @@ int	init_data(t_data *data)
 		pthread_mutex_destroy(&data->meal_mutex);
 		return (0);
 	}
+	return (1);
+}
+
+int	init_data(t_data *data)
+{
+	int	i;
+	int	j;
+
+	if (!init_mutexes_1(data))
+		return (0);
 	i = 0;
 	while (i < data->nb_philo)
 	{
@@ -61,14 +66,14 @@ int	init_data(t_data *data)
 	return (1);
 }
 
-void cleanup(t_data *data)
+void	cleanup(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	pthread_mutex_destroy(&data->meal_mutex);
 	pthread_mutex_destroy(&data->stop_mutex);
-	while ( i < data->nb_philo)
+	while (i < data->nb_philo)
 		pthread_mutex_destroy(&data->forks[i++]);
 	free(data->forks);
 }
@@ -78,7 +83,7 @@ void l()
 	system("leaks -q philo");
 }
 
-void ft_putstr_err(char *err)
+void	ft_putstr_err(char *err)
 {
 	write(2, "Error: ", 7);
 	while (*err)
