@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 20:26:25 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:09:43 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	should_stop(t_philo *philo)
 	int	stop;
 	int	meals_had;
 
-	pthread_mutex_lock(&philo->data->meal_mutex);
+	pthread_mutex_lock(&philo->meal_mutex);
 	meals_had = philo->nb_eat;
-	pthread_mutex_unlock(&philo->data->meal_mutex);
+	pthread_mutex_unlock(&philo->meal_mutex);
 	if (meals_had == philo->data->nb_must_eat)
 		return (1);
 	pthread_mutex_lock(&philo->data->stop_mutex);
@@ -41,7 +41,7 @@ void	ft_usleep( t_philo *philo, long long time)
 		pthread_mutex_unlock(&philo->data->stop_mutex);
 		if (stop)
 			return ;
-		usleep(500);
+		usleep(100);
 	}
 	return ;
 }
@@ -97,10 +97,10 @@ void	eat(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->data->stop_mutex);
 	print_log(philo, EATING);
-	pthread_mutex_lock(&philo->data->meal_mutex);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time();
 	philo->nb_eat++;
-	pthread_mutex_unlock(&philo->data->meal_mutex);
+	pthread_mutex_unlock(&philo->meal_mutex);
 	ft_usleep(philo, philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);

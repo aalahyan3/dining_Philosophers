@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 20:27:33 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:05:07 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_philos(t_philo *philos, t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
+		pthread_mutex_init(&philos[i].meal_mutex, NULL);
 		philos[i].data = data;
 		philos[i].id = i + 1;
 		philos[i].last_meal = get_time();

@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 20:24:06 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:08:25 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	someone_died(t_philo *philos)
 	data = philos[0].data;
 	while (i < data->nb_philo)
 	{
-		pthread_mutex_lock(&data->meal_mutex);
+		pthread_mutex_lock(&philos[i].meal_mutex);
 		last_meal = philos[i].last_meal;
-		pthread_mutex_unlock(&data->meal_mutex);
+		pthread_mutex_unlock(&philos[i].meal_mutex);
 		if (get_time() - last_meal > data->time_to_die)
 		{
 			print_log(&philos[i], DIED);
@@ -85,9 +85,9 @@ int	all_eat_enough(t_philo *philos)
 	eat_enough = 0;
 	while (i < data->nb_philo)
 	{
-		pthread_mutex_lock(&data->meal_mutex);
+		pthread_mutex_lock(&philos[i].meal_mutex);
 		meals = philos[i].nb_eat;
-		pthread_mutex_unlock(&data->meal_mutex);
+		pthread_mutex_unlock(&philos[i].meal_mutex);
 		if (meals == data->nb_must_eat)
 			eat_enough++;
 		i++;

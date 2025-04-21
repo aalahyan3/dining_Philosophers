@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:33:52 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/20 12:55:11 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:03:36 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		print;
 	pthread_mutex_t		stop_mutex;
-	pthread_mutex_t		meal_mutex;
 }	t_data;
 
 typedef struct s_philo
@@ -48,6 +47,7 @@ typedef struct s_philo
 	int				left_fork_index;
 	int				right_fork_index;
 	t_data			*data;
+	pthread_mutex_t		meal_mutex;
 	long long		last_meal;
 }	t_philo;
 
