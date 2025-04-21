@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 17:14:41 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:49:12 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_data
 	sem_t				*forks_sem;
 	sem_t				*print_sem;
 	sem_t				*stop_sem;
-	int					stop;
 }	t_data;
 
 typedef struct s_philo

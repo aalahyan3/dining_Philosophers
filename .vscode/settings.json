@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"limits.h": "c",
-		"philo_bonus.h": "c"
+		"philo_bonus.h": "c",
+		"locale": "c"
 	}
 }

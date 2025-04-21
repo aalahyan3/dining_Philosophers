@@ -6,17 +6,36 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 17:13:49 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:38:07 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	monitor_process(t_philo *philos, t_data *data)
+{
+	int	i;
+
+	sem_wait(data->stop_sem);
+	sem_close(data->stop_sem);
+	sem_close(data->forks_sem);
+	sem_close(data->print_sem);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		kill(philos[i].pid, SIGKILL);
+		i++;
+	}
+	free(philos);
+	exit(1);
+}
 
 void	start_simulation(t_data *data)
 {
 	t_philo	*philos;
 	int		i;
 	long long time;
+	int			pid;
 
 	philos = malloc(data->nb_philo * sizeof(t_philo));
 	if (!philos)
@@ -34,9 +53,6 @@ void	start_simulation(t_data *data)
 		{
 			while (--i)
 				kill(philos[i].pid, SIGKILL);
-			sem_wait(data->stop_sem);
-			data->stop = 1;
-			sem_post(data->stop_sem);
 			free(philos);
 			return ;
 		}
@@ -45,6 +61,11 @@ void	start_simulation(t_data *data)
 		i++;
 	}
 	i = 0;
+	fork();
+	if (pid == 0)
+		monitor_process(philos, data);
+	else
+		waitpid(pid, NULL, 0);
 	while (i < data->nb_philo)
 		waitpid(philos[i++].pid, NULL, 0);
 	free(philos);
