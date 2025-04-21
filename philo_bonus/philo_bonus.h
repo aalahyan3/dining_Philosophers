@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 16:18:13 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:14:41 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <sys/time.h>
 # include <limits.h>
 # include <unistd.h>
-
+# include <signal.h>
+# include <sys/wait.h>
 # define FORKS_SEMAPHORE	"/tmp/forks"
 # define PRINT_SEMAPHORE	"/tmp/print"
 # define STOP_SEMAPHORE		"/tmp/stop"
