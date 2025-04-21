@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 15:20:36 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:18:13 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,16 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <limits.h>
+# include <unistd.h>
 
 # define FORKS_SEMAPHORE	"/tmp/forks"
 # define PRINT_SEMAPHORE	"/tmp/print"
 # define STOP_SEMAPHORE		"/tmp/stop"
+# define TAKEN_FORK "has taken a fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DIED "died"
 
 typedef struct s_data
 {
@@ -46,11 +52,18 @@ typedef struct s_philo
 	pthread_t		monitor;
 	t_data			*data;
 	long long		last_meal;
+	sem_t			*meal_sem;
 }	t_philo;
 
 int		main(int ac, char **av);
 char	*parse(t_data *data, int ac, char **av);
 long long	get_time(void);
 void	ft_putstr_err(char *err);
+void	run_philo_child(t_philo *philo);
+void	print_log(t_philo *philo, char *message);
+void	ft_usleep( t_philo *philo, long long time);
+char	*get_unique_sem_name(int id);
+void	start_simulation(t_data *data);
+char	*get_unique_sem_name(int id);
 
 #endif
