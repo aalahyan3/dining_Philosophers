@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 21:38:07 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:05:15 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	start_simulation(t_data *data)
 	int		i;
 	long long time;
 	int			pid;
+	pthread_
 
 	philos = malloc(data->nb_philo * sizeof(t_philo));
 	if (!philos)
@@ -62,8 +63,13 @@ void	start_simulation(t_data *data)
 	}
 	i = 0;
 	fork();
-	if (pid == 0)
+	if (pid < 0)
+	{
+		sem_post(data->stop_sem);
 		monitor_process(philos, data);
+	}
+	if (pid == 0)
+		monitor_process(philos, data); // change this to thread ????
 	else
 		waitpid(pid, NULL, 0);
 	while (i < data->nb_philo)

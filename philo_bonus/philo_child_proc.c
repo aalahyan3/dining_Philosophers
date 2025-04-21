@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 21:41:54 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:01:38 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	run_philo_child(t_philo *philo)
 	{
 		if (philo->data->nb_must_eat != -1 && philo->nb_eat == philo->data->nb_must_eat)
 		{
+			printf("i ate enough\n");
 			break ;
-
+		}
 		if (get_time() - philo->last_meal > philo->data->time_to_die)
 		{
 			time = get_time() - philo->data->start_time;
