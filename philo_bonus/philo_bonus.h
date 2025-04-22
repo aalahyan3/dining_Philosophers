@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 20:49:12 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:28:02 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define FORKS_SEMAPHORE	"/tmp/forks"
 # define PRINT_SEMAPHORE	"/tmp/print"
 # define STOP_SEMAPHORE		"/tmp/stop"
+# define WAITER_SEMAPHORE	"/tmp/waiter"
 # define TAKEN_FORK "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
@@ -42,6 +43,7 @@ typedef struct s_data
 	sem_t				*forks_sem;
 	sem_t				*print_sem;
 	sem_t				*stop_sem;
+	sem_t				*waiter_sem;
 }	t_data;
 
 typedef struct s_philo
@@ -64,6 +66,5 @@ void	print_log(t_philo *philo, char *message);
 void	ft_usleep( t_philo *philo, long long time);
 char	*get_unique_sem_name(int id);
 void	start_simulation(t_data *data);
-char	*get_unique_sem_name(int id);
 
 #endif
