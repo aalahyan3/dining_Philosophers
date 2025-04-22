@@ -5,20 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 15:19:33 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:37:45 by aalahyan         ###   ########.fr       */
+/*   Created: 2025/04/22 17:42:57 by aalahyan          #+#    #+#             */
+/*   Updated: 2025/04/22 17:52:08 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
-
-long long	get_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
+#include "philo.h"
 
 void	ft_putstr_err(char *err)
 {
@@ -28,24 +20,54 @@ void	ft_putstr_err(char *err)
 	write(2, "\n", 1);
 }
 
+long long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep( t_philo *philo, long long time)
+{
+	long long	start;
+	int			stop;
+
+	start = get_time();
+	while ((get_time() - start) < time)
+	{
+		pthread_mutex_lock(&philo->data->stop_mutex);
+		stop = philo->data->stop;
+		pthread_mutex_unlock(&philo->data->stop_mutex);
+		if (stop)
+			return ;
+		usleep(100);
+	}
+	return ;
+}
+
 void	print_log(t_philo *philo, char *message)
 {
 	long long	time;
 
 	time = get_time() - philo->data->start_time;
-	sem_wait(philo->data->print_sem);
+	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->stop_mutex);
+	if (philo->data->stop)
+	{
+		pthread_mutex_unlock(&philo->data->stop_mutex);
+		pthread_mutex_unlock(&philo->data->print);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->stop_mutex);
 	printf("--------------------------------------------------------------\n");
 	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, message);
-	sem_post(philo->data->print_sem);
+	pthread_mutex_unlock(&philo->data->print);
 }
 
-void	ft_usleep(t_philo *philo, long long duration)
+void	set_stop(t_data *data)
 {
-	long long	start;
-
-	start = get_time();
-	while ((get_time() - start) < duration)
-	{
-		usleep(100);
-	}
+	pthread_mutex_lock(&data->stop_mutex);
+	data->stop = 1;
+	pthread_mutex_unlock(&data->stop_mutex);
 }

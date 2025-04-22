@@ -6,28 +6,34 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:37:31 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/19 20:24:20 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:06:32 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	ft_atol(char *s, int *overflow)
+static long	ft_atol(char *s, int *overflow)
 {
 	long	res;
+	int		digit;
 
 	res = 0;
 	while (*s)
 	{
-		if (res > LONG_MAX - (*s - 48) / 10)
+		digit = *s - 48;
+		if (res > (LONG_MAX - digit) / 10)
+		{
 			*overflow = 1;
-		res = res * 10 + (*s - 48);
+			return (0);
+		}
+		res = res * 10 + digit;
 		s++;
 	}
 	return (res);
 }
 
-int	all_digits(char **av)
+
+static int	all_digits(char **av)
 {
 	int	i;
 	int	j;
@@ -65,6 +71,7 @@ char	*parse(t_data *data, int ac, char **av)
 	else
 		data->nb_must_eat = -1;
 	if (overflow)
-		return ("argument exeeds long values");
+		return ("argument number is too large");
 	return (NULL);
 }
+

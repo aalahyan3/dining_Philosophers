@@ -6,13 +6,13 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:27:32 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 14:04:19 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:53:49 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_mutexes_1(t_data *data)
+static int	init_mutexes_1(t_data *data)
 {
 	data->start_time = get_time();
 	data->stop = 0;
@@ -33,7 +33,7 @@ int	init_mutexes_1(t_data *data)
 	return (1);
 }
 
-int	init_data(t_data *data)
+static int	init_data(t_data *data)
 {
 	int	i;
 	int	j;
@@ -58,7 +58,7 @@ int	init_data(t_data *data)
 	return (1);
 }
 
-void	cleanup(t_data *data)
+static void	cleanup(t_data *data)
 {
 	int	i;
 
@@ -67,19 +67,6 @@ void	cleanup(t_data *data)
 	while (i < data->nb_philo)
 		pthread_mutex_destroy(&data->forks[i++]);
 	free(data->forks);
-}
-
-void l()
-{
-	system("leaks -q philo");
-}
-
-void	ft_putstr_err(char *err)
-{
-	write(2, "Error: ", 7);
-	while (*err)
-		write(2, err++, 1);
-	write(2, "\n", 1);
 }
 
 int	main(int ac, char **av)

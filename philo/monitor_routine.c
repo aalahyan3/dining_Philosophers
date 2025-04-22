@@ -6,51 +6,13 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 19:39:14 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:54:13 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	get_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
-
-// int	is_stop_condition(t_philo *philos)
-// {
-// 	int			i;
-// 	int			eat;
-// 	long long	curr;
-// 	long long	last_meal;
-// 	t_data		*data;
-// 	int	times_eat;
-
-// 	i = 0;
-// 	eat = 0;
-// 	data = philos[0].data;
-// 	i = 0;
-// 	while (i < data->nb_philo)
-// 	{
-// 		pthread_mutex_lock(&data->meal_mutex);
-// 		last_meal = philos[i].last_meal;
-// 		times_eat = philos[i].nb_eat;
-// 		pthread_mutex_unlock(&data->meal_mutex);
-// 		curr = get_time();
-// 		if (curr - last_meal > data->time_to_die)
-// 		{
-// 			print_log(&philos[i], DIED);
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-int	someone_died(t_philo *philos)
+static int	someone_died(t_philo *philos)
 {
 	int			i;
 	long long	last_meal;
@@ -73,7 +35,7 @@ int	someone_died(t_philo *philos)
 	return (0);
 }
 
-int	all_eat_enough(t_philo *philos)
+static int	all_eat_enough(t_philo *philos)
 {
 	int		i;
 	int		eat_enough;

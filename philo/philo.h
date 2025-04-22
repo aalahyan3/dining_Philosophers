@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:33:52 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 14:03:36 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:55:51 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <limits.h>
+
 # define TAKEN_FORK "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
@@ -41,14 +42,14 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int				id;
-	int				nb_eat;
-	pthread_t		thread;
-	int				left_fork_index;
-	int				right_fork_index;
-	t_data			*data;
+	int					id;
+	int					nb_eat;
+	pthread_t			thread;
+	int					left_fork_index;
+	int					right_fork_index;
+	t_data				*data;
 	pthread_mutex_t		meal_mutex;
-	long long		last_meal;
+	long long			last_meal;
 }	t_philo;
 
 int			main(int ac, char **av);
@@ -59,5 +60,7 @@ void		*monitor_routine(void *arg);
 long long	get_time(void);
 void		print_log(t_philo *philo, char *message);
 void		ft_usleep( t_philo *philo, long long time);
+void		ft_putstr_err(char *err);
+void		set_stop(t_data *data);
 
 #endif

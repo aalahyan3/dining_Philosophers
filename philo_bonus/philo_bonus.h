@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 14:28:02 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:36:39 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <sys/wait.h>
+
 # define FORKS_SEMAPHORE	"/tmp/forks"
 # define PRINT_SEMAPHORE	"/tmp/print"
 # define STOP_SEMAPHORE		"/tmp/stop"
@@ -57,14 +58,15 @@ typedef struct s_philo
 	sem_t			*meal_sem;
 }	t_philo;
 
-int		main(int ac, char **av);
-char	*parse(t_data *data, int ac, char **av);
+int			main(int ac, char **av);
+char		*parse(t_data *data, int ac, char **av);
 long long	get_time(void);
-void	ft_putstr_err(char *err);
-void	run_philo_child(t_philo *philo);
-void	print_log(t_philo *philo, char *message);
-void	ft_usleep( t_philo *philo, long long time);
-char	*get_unique_sem_name(int id);
-void	start_simulation(t_data *data);
+void		ft_putstr_err(char *err);
+void		run_philo_child(t_philo *philo);
+void		print_log(t_philo *philo, char *message);
+void		ft_usleep( t_philo *philo, long long time);
+char		*get_unique_sem_name(int id);
+void		start_simulation(t_data *data);
+char		*get_unique_sem_name(int id);
 
 #endif

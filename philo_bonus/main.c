@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:03 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 15:01:35 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:41:41 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	init_data(t_data *data)
 	sem_unlink(FORKS_SEMAPHORE);
 	sem_unlink(PRINT_SEMAPHORE);
 	sem_unlink(WAITER_SEMAPHORE);
-	data->forks_sem = sem_open(FORKS_SEMAPHORE, O_CREAT | O_EXCL, 0644, data->nb_philo);
+	data->forks_sem = sem_open(FORKS_SEMAPHORE, \
+	O_CREAT | O_EXCL, 0644, data->nb_philo);
 	if (data->forks_sem == SEM_FAILED)
 		return (0);
 	data->print_sem = sem_open(PRINT_SEMAPHORE, O_CREAT | O_EXCL, 0644, 1);
@@ -55,6 +56,18 @@ int	init_data(t_data *data)
 		return (0);
 	}
 	return (init_data_2(data));
+}
+
+void	cleanup(t_data *data)
+{
+	sem_close(data->forks_sem);
+	sem_close(data->print_sem);
+	sem_close(data->stop_sem);
+	sem_close(data->waiter_sem);
+	sem_unlink(STOP_SEMAPHORE);
+	sem_unlink(FORKS_SEMAPHORE);
+	sem_unlink(PRINT_SEMAPHORE);
+	sem_unlink(WAITER_SEMAPHORE);
 }
 
 int	main(int ac, char **av)
@@ -71,4 +84,5 @@ int	main(int ac, char **av)
 	if (!init_data(&data))
 		return (1);
 	start_simulation(&data);
+	cleanup(&data);
 }

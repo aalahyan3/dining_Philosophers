@@ -6,13 +6,13 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/21 21:00:26 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:54:55 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	should_stop(t_philo *philo)
+static int	should_stop(t_philo *philo)
 {
 	int	stop;
 	int	meals_had;
@@ -28,44 +28,7 @@ int	should_stop(t_philo *philo)
 	return (stop);
 }
 
-void	ft_usleep( t_philo *philo, long long time)
-{
-	long long	start;
-	int			stop;
-
-	start = get_time();
-	while ((get_time() - start) < time)
-	{
-		pthread_mutex_lock(&philo->data->stop_mutex);
-		stop = philo->data->stop;
-		pthread_mutex_unlock(&philo->data->stop_mutex);
-		if (stop)
-			return ;
-		usleep(100);
-	}
-	return ;
-}
-
-void	print_log(t_philo *philo, char *message)
-{
-	long long	time;
-
-	time = get_time() - philo->data->start_time;
-	pthread_mutex_lock(&philo->data->print);
-	pthread_mutex_lock(&philo->data->stop_mutex);
-	if (philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->data->stop_mutex);
-		pthread_mutex_unlock(&philo->data->print);
-		return ;
-	}
-	pthread_mutex_unlock(&philo->data->stop_mutex);
-	printf("--------------------------------------------------------------\n");
-	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, message);
-	pthread_mutex_unlock(&philo->data->print);
-}
-
-void	take_forks(t_philo *philo)
+static void	take_forks(t_philo *philo)
 {
 	if (philo->left_fork_index < philo->right_fork_index)
 	{
@@ -85,18 +48,11 @@ void	take_forks(t_philo *philo)
 	}
 }
 
-void	eat(t_philo *philo)
+static void	eat(t_philo *philo)
 {
 	take_forks(philo);
-	pthread_mutex_lock(&philo->data->stop_mutex);
-	if (philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->data->stop_mutex);
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
-		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
+	if (should_stop(philo))
 		return ;
-	}
-	pthread_mutex_unlock(&philo->data->stop_mutex);
 	print_log(philo, EATING);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time();
@@ -105,18 +61,13 @@ void	eat(t_philo *philo)
 	ft_usleep(philo, philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
-	pthread_mutex_lock(&philo->data->stop_mutex);
-	if (philo->data->stop)
-	{
-		pthread_mutex_unlock(&philo->data->stop_mutex);
+	if (should_stop(philo))
 		return ;
-	}
-	pthread_mutex_unlock(&philo->data->stop_mutex);
 	print_log(philo, SLEEPING);
 	ft_usleep(philo, philo->data->time_to_sleep);
 }
 
-void *one_philo_case(t_philo *philo)
+static void	*one_philo_case(t_philo *philo)
 {
 	print_log(philo, TAKEN_FORK);
 	return (NULL);
