@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:42:12 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:51:57 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_philos(t_philo *philos, t_data *data)
 		philos[i].id = i + 1;
 		philos[i].last_meal = time;
 		philos[i].nb_eat = 0;
+		philos[i].is_eating = 0;
 		i++;
 	}
 }
