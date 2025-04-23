@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 14:10:36 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:46:18 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ static void	eat(t_philo *philo)
 {
 	take_forks(philo);
 	if (should_stop(philo))
+	{
+		pthread_mutex_unlock(&philo->data->forks[philo->left_fork_index]);
+		pthread_mutex_unlock(&philo->data->forks[philo->right_fork_index]);
 		return ;
+	}
 	print_log(philo, EATING);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time();

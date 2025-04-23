@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 15:03:44 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:45:16 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	start_thread(t_philo *philo)
 
 	uniq_sem = get_unique_sem_name(philo->id);
 	sem_unlink(uniq_sem);
-	philo->meal_sem = sem_open(uniq_sem, O_CREAT, 0644, 1);
+	philo->meal_sem = sem_open(uniq_sem, O_CREAT | O_EXCL, 0644, 1);
 	if (philo->meal_sem == SEM_FAILED)
 	{
 		free(uniq_sem);
