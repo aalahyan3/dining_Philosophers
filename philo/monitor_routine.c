@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:54:13 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:45:37 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	someone_died(t_philo *philos)
 		if (get_time() - last_meal > data->time_to_die)
 		{
 			print_log(&philos[i], DIED);
+				printf("-----------------------------------------\
+---------------------\n");
 			return (1);
 		}
 		i++;
@@ -73,7 +75,7 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&data->stop_mutex);
 			return (NULL);
 		}
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }

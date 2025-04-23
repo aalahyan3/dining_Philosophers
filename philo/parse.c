@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:37:31 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 18:06:32 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:08:23 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static long	ft_atol(char *s, int *overflow)
 	}
 	return (res);
 }
-
 
 static int	all_digits(char **av)
 {
@@ -74,4 +73,3 @@ char	*parse(t_data *data, int ac, char **av)
 		return ("argument number is too large");
 	return (NULL);
 }
-

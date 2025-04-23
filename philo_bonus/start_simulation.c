@@ -6,11 +6,23 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 20:51:57 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:13:02 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	philo_ate_enough(t_philo *philo)
+{
+	sem_wait(philo->data->print_sem);
+	sem_post(philo->data->print_sem);
+	sem_close(philo->meal_sem);
+	sem_close(philo->data->forks_sem);
+	sem_close(philo->data->print_sem);
+	sem_close(philo->data->stop_sem);
+	sem_close(philo->data->waiter_sem);
+	exit(0);
+}
 
 void	init_philos(t_philo *philos, t_data *data)
 {
@@ -25,7 +37,6 @@ void	init_philos(t_philo *philos, t_data *data)
 		philos[i].id = i + 1;
 		philos[i].last_meal = time;
 		philos[i].nb_eat = 0;
-		philos[i].is_eating = 0;
 		i++;
 	}
 }
@@ -38,6 +49,7 @@ void	monitor_process(t_philo *philos, t_data *data)
 	sem_close(data->stop_sem);
 	sem_close(data->forks_sem);
 	sem_close(data->print_sem);
+	sem_close(data->waiter_sem);
 	i = 0;
 	while (i < data->nb_philo)
 	{

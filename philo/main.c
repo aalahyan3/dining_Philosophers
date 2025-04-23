@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:27:32 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:53:49 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:19:24 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	cleanup(t_data *data)
 
 	i = 0;
 	pthread_mutex_destroy(&data->stop_mutex);
+	pthread_mutex_destroy(&data->print);
 	while (i < data->nb_philo)
 		pthread_mutex_destroy(&data->forks[i++]);
 	free(data->forks);

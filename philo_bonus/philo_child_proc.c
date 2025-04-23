@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 21:17:10 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:03:44 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ void	eat_philo(t_philo *philo)
 	print_log(philo, EATING);
 	sem_wait(philo->meal_sem);
 	philo->last_meal = get_time();
-	philo->is_eating = 1;
 	sem_post(philo->meal_sem);
 	ft_usleep(philo, philo->data->time_to_eat);
 	sem_post(philo->data->forks_sem);
 	sem_post(philo->data->forks_sem);
 	sem_wait(philo->meal_sem);
 	philo->nb_eat += 1;
-	philo->is_eating = 0;
 	sem_post(philo->meal_sem);
 	print_log(philo, SLEEPING);
 	ft_usleep(philo, philo->data->time_to_sleep);
@@ -59,25 +57,11 @@ void	*monitor_routine(void *arg)
 		sem_wait(philo->meal_sem);
 		last_meal = philo->last_meal;
 		meals = philo->nb_eat;
-		is_eating = philo->is_eating;
 		sem_post(philo->meal_sem);
 		if (get_time() - last_meal > philo->data->time_to_die)
-		{
-			sem_wait(philo->data->print_sem);
-			printf("-----------------------------\
-			---------------------------------\n");
-			printf("| %-10lld | %-3d | %-40s|\n", \
-			get_time() - philo->data->start_time, philo->id, DIED);
-			sem_post(philo->data->stop_sem);
-			break ;
-		}
+			return (print_death_log(philo), NULL);
 		if (meals == philo->data->nb_must_eat)
-		{
-			sem_wait(philo->data->print_sem);
-			sem_post(philo->data->print_sem);
-			sem_close(philo->meal_sem);
-			exit(0);
-		}
+			philo_ate_enough(philo);
 		usleep(500);
 	}
 	return (NULL);
@@ -108,6 +92,7 @@ void	start_thread(t_philo *philo)
 		sem_close(philo->meal_sem);
 		exit(1);
 	}
+	usleep(100);
 }
 
 void	run_philo_child(t_philo *philo)

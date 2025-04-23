@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 20:51:35 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:54:13 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_philo
 	int				id;
 	int				pid;
 	int				nb_eat;
-	int				is_eating;
 	pthread_t		monitor;
 	t_data			*data;
 	long long		last_meal;
@@ -69,5 +68,7 @@ void		ft_usleep( t_philo *philo, long long time);
 char		*get_unique_sem_name(int id);
 void		start_simulation(t_data *data);
 char		*get_unique_sem_name(int id);
+void		print_death_log(t_philo *philo);
+void		philo_ate_enough(t_philo *philo);
 
 #endif
