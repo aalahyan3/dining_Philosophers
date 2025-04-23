@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:33:52 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:55:51 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:22:53 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ void		print_log(t_philo *philo, char *message);
 void		ft_usleep( t_philo *philo, long long time);
 void		ft_putstr_err(char *err);
 void		set_stop(t_data *data);
+void		print_death_log(t_philo *philo);
 
 #endif

@@ -6,11 +6,35 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 15:18:18 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:25:53 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_death_log(t_philo *philo)
+{
+	long long	time;
+
+	time = get_time() - philo->data->start_time;
+	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->stop_mutex);
+	if (philo->data->stop)
+	{
+		pthread_mutex_unlock(&philo->data->stop_mutex);
+		pthread_mutex_unlock(&philo->data->print);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->stop_mutex);
+	printf("--------------------------------------------------------------\n");
+	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, DIED);
+	printf("--------------------------------------------------------------\n");
+	pthread_mutex_lock(&philo->data->stop_mutex);
+	philo->data->stop = 1;
+	pthread_mutex_unlock(&philo->data->stop_mutex);
+	pthread_mutex_unlock(&philo->data->print);
+	return ;
+}
 
 static int	get_left_fork(int id, int nb_p)
 {

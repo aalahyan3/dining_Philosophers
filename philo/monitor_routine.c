@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 14:45:37 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:25:36 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ static int	someone_died(t_philo *philos)
 		last_meal = philos[i].last_meal;
 		pthread_mutex_unlock(&philos[i].meal_mutex);
 		if (get_time() - last_meal > data->time_to_die)
-		{
-			print_log(&philos[i], DIED);
-				printf("-----------------------------------------\
----------------------\n");
-			return (1);
-		}
+			return (print_death_log(&philos[i]), 1);
 		i++;
 	}
 	return (0);
@@ -68,7 +63,9 @@ void	*monitor_routine(void *arg)
 	data = philos[0].data;
 	while (1)
 	{
-		if (someone_died(philos) || all_eat_enough(philos))
+		if (someone_died(philos))
+			return (NULL);
+		if (all_eat_enough(philos))
 		{
 			pthread_mutex_lock(&data->stop_mutex);
 			data->stop = 1;
