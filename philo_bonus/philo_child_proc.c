@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 17:45:16 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:25:46 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	*monitor_routine(void *arg)
 	t_philo		*philo;
 	long long	last_meal;
 	int			meals;
-	int			is_eating;
 
 	philo = (t_philo *)arg;
 	while (1)
@@ -58,11 +57,11 @@ void	*monitor_routine(void *arg)
 		last_meal = philo->last_meal;
 		meals = philo->nb_eat;
 		sem_post(philo->meal_sem);
-		if (get_time() - last_meal > philo->data->time_to_die)
+		if (get_time() - last_meal >= philo->data->time_to_die)
 			return (print_death_log(philo), NULL);
 		if (meals == philo->data->nb_must_eat)
 			philo_ate_enough(philo);
-		usleep(500);
+		usleep(50);
 	}
 	return (NULL);
 }
@@ -97,8 +96,6 @@ void	start_thread(t_philo *philo)
 
 void	run_philo_child(t_philo *philo)
 {
-	long long	time;
-
 	start_thread(philo);
 	if (philo->data->nb_philo == 1)
 		one_philo_case(philo);

@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 16:03:06 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:47:16 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	launch_monitor(t_philo *philos, t_data *data)
 void	run_philosophers(t_philo *philos, t_data *data)
 {
 	int	i;
-	int	pid;
 
 	i = 0;
 	while (i < data->nb_philo)

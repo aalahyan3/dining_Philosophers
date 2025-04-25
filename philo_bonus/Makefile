@@ -6,24 +6,24 @@
 #    By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 18:16:10 by aalahyan          #+#    #+#              #
-#    Updated: 2025/04/22 17:32:10 by aalahyan         ###   ########.fr        #
+#    Updated: 2025/04/25 15:14:45 by aalahyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=philo_bonus
 CC=cc
-CFLAGS= #-fsanitize=thread #-Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror
 
 SRCS= main.c parse.c utils.c start_simulation.c philo_child_proc.c get_unique_sem_name.c
 
 OBJS=$(SRCS:.c=.o)
 
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c philo.h
+%.o: %.c philo_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 17:46:18 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:36:46 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,11 @@ static int	should_stop(t_philo *philo)
 
 static void	take_forks(t_philo *philo)
 {
-	if (philo->left_fork_index < philo->right_fork_index)
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
-		print_log(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
-		print_log(philo, TAKEN_FORK);
-		return ;
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
-		print_log(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
-		print_log(philo, TAKEN_FORK);
-		return ;
-	}
+	pthread_mutex_lock(&philo->data->forks[philo->left_fork_index]);
+	print_log(philo, TAKEN_FORK);
+	pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
+	print_log(philo, TAKEN_FORK);
+
 }
 
 static void	eat(t_philo *philo)
@@ -84,7 +73,8 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	usleep(0 + (!(philo->id % 2) * 1000));
+	if (philo->id % 2 == 0)
+		usleep(100);
 	if (philo->data->nb_philo == 1)
 		return (one_philo_case(philo));
 	while (!should_stop(philo))

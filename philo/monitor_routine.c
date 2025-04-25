@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 16:25:36 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:15:10 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	someone_died(t_philo *philos)
 		pthread_mutex_lock(&philos[i].meal_mutex);
 		last_meal = philos[i].last_meal;
 		pthread_mutex_unlock(&philos[i].meal_mutex);
-		if (get_time() - last_meal > data->time_to_die)
+		if (get_time() - last_meal >= data->time_to_die)
 			return (print_death_log(&philos[i]), 1);
 		i++;
 	}
@@ -72,7 +72,7 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&data->stop_mutex);
 			return (NULL);
 		}
-		usleep(500);
+		usleep(50);
 	}
 	return (NULL);
 }
