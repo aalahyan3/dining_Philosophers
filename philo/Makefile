@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror -pthread
 NAME=philo
 SRCS=main.c monitor_routine.c parse.c philo_routine.c simulation.c utils.c
 OBJS=$(SRCS:.c=.o)
