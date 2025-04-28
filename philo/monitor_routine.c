@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 14:39:26 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:42:19 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	*monitor_routine(void *arg)
 		}
 		if (someone_died(philos))
 			return (NULL);
-		// usleep(50);
+		usleep(50);
 	}
 	return (NULL);
 }
