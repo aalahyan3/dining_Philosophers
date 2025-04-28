@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/26 09:57:49 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:11:23 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	print_death_log(t_philo *philo)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->stop_mutex);
-	printf("--------------------------------------------------------------\n");
-	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, DIED);
-	printf("--------------------------------------------------------------\n");
+	printf("%lld %d %s\n", time, philo->id, DIED);
 	pthread_mutex_lock(&philo->data->stop_mutex);
 	philo->data->stop = 1;
 	pthread_mutex_unlock(&philo->data->stop_mutex);
@@ -107,8 +105,6 @@ void	start_simulation(t_data *data)
 		free(philos);
 		return ;
 	}
-	printf("--------------------------------------------------------------\n");
-	printf("| %-10s | %-3s | %-40s|\n", "time (ms)", "id", "logs");
 	data->start_time = get_time();
 	start_threads(philos, data);
 	i = 0;

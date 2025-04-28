@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:42:57 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/22 17:52:08 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:15:43 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_usleep( t_philo *philo, long long time)
 		pthread_mutex_unlock(&philo->data->stop_mutex);
 		if (stop)
 			return ;
-		usleep(100);
+		usleep(500);
 	}
 	return ;
 }
@@ -60,8 +60,7 @@ void	print_log(t_philo *philo, char *message)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->stop_mutex);
-	printf("--------------------------------------------------------------\n");
-	printf("| %-10lld | %-3d | %-40s|\n", time, philo->id, message);
+	printf("%lld %d %s\n", time, philo->id, message);
 	pthread_mutex_unlock(&philo->data->print);
 }
 

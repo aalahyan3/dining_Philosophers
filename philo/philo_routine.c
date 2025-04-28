@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/25 15:36:46 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:13:10 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(1000);
 	if (philo->data->nb_philo == 1)
 		return (one_philo_case(philo));
 	while (!should_stop(philo))

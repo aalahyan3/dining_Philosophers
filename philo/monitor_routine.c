@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:48:59 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/25 15:15:10 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:39:26 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	*monitor_routine(void *arg)
 	data = philos[0].data;
 	while (1)
 	{
-		if (someone_died(philos))
-			return (NULL);
 		if (all_eat_enough(philos))
 		{
 			pthread_mutex_lock(&data->stop_mutex);
@@ -72,7 +70,9 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&data->stop_mutex);
 			return (NULL);
 		}
-		usleep(50);
+		if (someone_died(philos))
+			return (NULL);
+		// usleep(50);
 	}
 	return (NULL);
 }
