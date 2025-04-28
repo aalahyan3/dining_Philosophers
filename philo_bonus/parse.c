@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:37:31 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/27 14:45:47 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:27:44 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ char	*parse(t_data *data, int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return ("invalid nb of args");
+	if (!*av[1] || !*av[2] || !*av[3] || !*av[4] || (av[5] && !*av[5]))
+		return ("please enter a non empty argument!");
 	if (!all_digits(av + 1))
 		return ("non digit argument");
 	overflow = 0;
@@ -71,7 +73,7 @@ char	*parse(t_data *data, int ac, char **av)
 		data->nb_must_eat = -1;
 	if (overflow)
 		return ("argument number is too large");
-	if (!data->nb_philo)
-		return ("at least one philo is required");
+	if (data->nb_philo < 1 || data->nb_philo > 200)
+		return ("number of philosopher must be between 1 and 200");
 	return (NULL);
 }
