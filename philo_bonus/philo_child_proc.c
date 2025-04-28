@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 16:00:31 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:21:33 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	eat_philo(t_philo *philo)
 	sem_post(philo->meal_sem);
 	print_log(philo, EATING);
 	ft_usleep(philo, philo->data->time_to_eat);
+	sem_post(philo->data->forks_sem);
+	sem_post(philo->data->forks_sem);
 	sem_wait(philo->meal_sem);
 	philo->nb_eat += 1;
 	sem_post(philo->meal_sem);
-	sem_post(philo->data->forks_sem);
-	sem_post(philo->data->forks_sem);
 	print_log(philo, SLEEPING);
 	ft_usleep(philo, philo->data->time_to_sleep);
 }
@@ -61,7 +61,7 @@ void	*monitor_routine(void *arg)
 			return (print_death_log(philo), NULL);
 		else if (meals == philo->data->nb_must_eat)
 			philo_ate_enough(philo);
-		usleep(50);
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -91,11 +91,12 @@ void	start_thread(t_philo *philo)
 		sem_close(philo->meal_sem);
 		exit(1);
 	}
-	// usleep(100);
+	usleep(100);
 }
 
 void	run_philo_child(t_philo *philo)
 {
+	philo->last_meal = get_time();
 	start_thread(philo);
 	if (philo->data->nb_philo == 1)
 		one_philo_case(philo);
