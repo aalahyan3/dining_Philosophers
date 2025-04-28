@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:18:30 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 14:54:13 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/26 10:07:40 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_data
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
-	int					nb_must_eat;
+	long				nb_must_eat;
 	long long			start_time;
 	sem_t				*forks_sem;
 	sem_t				*print_sem;
