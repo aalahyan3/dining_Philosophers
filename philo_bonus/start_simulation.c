@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/23 17:47:16 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:10:36 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	run_philosophers(t_philo *philos, t_data *data)
 	int	i;
 
 	i = 0;
+	data->start_time = get_time();
 	while (i < data->nb_philo)
 	{
 		philos[i].pid = fork();
@@ -84,7 +85,7 @@ void	run_philosophers(t_philo *philos, t_data *data)
 			free(philos);
 			return ;
 		}
-		if (philos[i].pid == 0)
+		else if (philos[i].pid == 0)
 			run_philo_child(&philos[i]);
 		i++;
 	}
@@ -101,7 +102,5 @@ void	start_simulation(t_data *data)
 		return ;
 	i = 0;
 	init_philos(philos, data);
-	printf("--------------------------------------------------------------\n");
-	printf("| %-10s | %-3s | %-40s|\n", "time (ms)", "id", "logs");
 	run_philosophers(philos, data);
 }
