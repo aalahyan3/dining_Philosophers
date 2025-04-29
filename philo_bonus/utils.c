@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:19:33 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 21:25:06 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:00:51 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ void	ft_usleep(t_philo *philo, long long duration)
 	start = get_time();
 	while ((get_time() - start) < duration)
 	{
-		usleep(100);
+		usleep(500);
 	}
 }

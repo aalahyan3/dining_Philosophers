@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 21:21:33 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:00:44 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	*monitor_routine(void *arg)
 			return (print_death_log(philo), NULL);
 		else if (meals == philo->data->nb_must_eat)
 			philo_ate_enough(philo);
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }
