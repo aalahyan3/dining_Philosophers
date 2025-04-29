@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:19:33 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/29 16:29:39 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:42:00 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,13 @@ void	print_death_log(t_philo *philo)
 
 	sem_wait(philo->data->print_sem);
 	printf("%lld %d %s\n", time - philo->data->start_time, philo->id, DIED);
+	sem_close(philo->data->print_sem);
+	sem_close(philo->data->forks_sem);
+	sem_close(philo->data->waiter_sem);
+	sem_close(philo->meal_sem);
 	sem_post(philo->data->stop_sem);
+	sem_close(philo->data->stop_sem);
+	exit(0);
 }
 
 void	ft_usleep(t_philo *philo, long long duration)

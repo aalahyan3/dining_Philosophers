@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/29 10:00:44 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:40:47 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	one_philo_case(t_philo *philo)
 	ft_usleep(philo, philo->data->time_to_die);
 	print_log(philo, DIED);
 	sem_close(philo->meal_sem);
+	sem_close(philo->data->forks_sem);
+	sem_close(philo->data->print_sem);
+	sem_close(philo->data->stop_sem);
+	sem_close(philo->data->waiter_sem);
 	sem_post(philo->data->stop_sem);
 	exit(0);
 }
@@ -79,6 +83,7 @@ void	start_thread(t_philo *philo)
 		sem_close(philo->data->forks_sem);
 		sem_close(philo->data->print_sem);
 		sem_close(philo->data->stop_sem);
+		sem_close(philo->data->waiter_sem);
 		exit(1);
 	}
 	sem_unlink(uniq_sem);
@@ -88,6 +93,7 @@ void	start_thread(t_philo *philo)
 		sem_close(philo->data->forks_sem);
 		sem_close(philo->data->print_sem);
 		sem_close(philo->data->stop_sem);
+		sem_close(philo->data->waiter_sem);
 		sem_close(philo->meal_sem);
 		exit(1);
 	}
