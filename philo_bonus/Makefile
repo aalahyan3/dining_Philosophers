@@ -6,13 +6,13 @@
 #    By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 18:16:10 by aalahyan          #+#    #+#              #
-#    Updated: 2025/04/26 09:58:37 by aalahyan         ###   ########.fr        #
+#    Updated: 2025/04/29 16:19:40 by aalahyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=philo_bonus
 CC=cc
-CFLAGS= -Wall -Wextra -Werror -pthread
+CFLAGS= -Wall -Wextra -Werror
 
 SRCS= main.c parse.c utils.c start_simulation.c philo_child_proc.c get_unique_sem_name.c
 
