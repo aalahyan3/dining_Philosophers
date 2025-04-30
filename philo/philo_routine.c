@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:47:20 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 14:13:10 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:11:48 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	take_forks(t_philo *philo)
 	print_log(philo, TAKEN_FORK);
 	pthread_mutex_lock(&philo->data->forks[philo->right_fork_index]);
 	print_log(philo, TAKEN_FORK);
-
 }
 
 static void	eat(t_philo *philo)

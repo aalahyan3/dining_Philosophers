@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:28:15 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/30 10:05:22 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:21:14 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	one_philo_case(t_philo *philo)
 }
 
 void	*monitor_routine(void *arg)
-{ 
+{
 	t_philo		*philo;
 	long long	last_meal;
 	int			meals;
@@ -97,13 +97,13 @@ void	start_thread(t_philo *philo)
 		sem_close(philo->meal_sem);
 		exit(1);
 	}
-	usleep(100);
 }
 
 void	run_philo_child(t_philo *philo)
 {
 	philo->last_meal = get_time();
 	start_thread(philo);
+	// usleep(100);
 	if (philo->data->nb_philo == 1)
 		one_philo_case(philo);
 	while (1)
@@ -114,6 +114,8 @@ void	run_philo_child(t_philo *philo)
 	pthread_join(philo->monitor, NULL);
 	sem_close(philo->data->forks_sem);
 	sem_close(philo->data->print_sem);
+	sem_close(philo->data->waiter_sem);
 	sem_close(philo->meal_sem);
+	sem_close(philo->data->stop_sem);
 	exit(0);
 }
