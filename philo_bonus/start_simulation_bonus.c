@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start_simulation.c                                 :+:      :+:    :+:   */
+/*   start_simulation_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:26 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 21:16:42 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:44:59 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	start_simulation(t_data *data)
 	t_philo	*philos;
 	int		i;
 
+	if (!data->nb_must_eat)
+		return ;
 	philos = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philos)
 		return ;

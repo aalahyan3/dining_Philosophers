@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:15:21 by aalahyan          #+#    #+#             */
-/*   Updated: 2025/04/28 14:11:23 by aalahyan         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:47:30 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	start_simulation(t_data *data)
 	t_philo		*philos;
 	int			i;
 
+	if (data->nb_must_eat == 0)
+		return ;
 	philos = malloc(data->nb_philo * sizeof(t_philo));
 	if (!philos)
 		return ;
